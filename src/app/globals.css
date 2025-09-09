@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* ===== Design tokens (CSS custom properties) ===== */
+:root {
+  /* Base palette */
+  --background: #121212;
+  --foreground: #fbfbfb;
+
+  /* Brand palette */
+  --brand-bg: #121212;
+  --brand-fg: #fbfbfb;
+  --brand-primary: #ff582b;   /* arancio */
+  --brand-accent-1: #bcf01f;  /* verde  */
+  --brand-accent-2: #9a48ff;  /* viola  */
+
+  /* Font vars (riempite da next/font nel layout) */
+  --font-body: var(--font-raleway);
+  --font-title: var(--font-clash-display);
+
+  /* UI di sistema in dark mode (scrollbar, form controls, ecc.) */
+  color-scheme: dark;
+}
+
+/* ===== Tailwind v4 theme tokens =====
+   Ora puoi usare:
+   - bg-background / text-foreground
+   - bg-brand-bg / text-brand-fg
+   - text-brand-primary / text-brand-accent-1 / text-brand-accent-2
+   - font-sans / font-title
+*/
+@theme inline {
+  /* colori base */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* colori brand */
+  --color-brand-bg: var(--brand-bg);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-accent-1: var(--brand-accent-1);
+  --color-brand-accent-2: var(--brand-accent-2);
+
+  /* font */
+  --font-sans: var(--font-body);
+  --font-title: var(--font-title);
+}
+
+/* ===== Comportamenti globali ===== */
+html { scroll-behavior: smooth; }
+/* Accessibilità: disabilita lo smooth se l’utente preferisce meno motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Base app: colore di sfondo/testo, font e layout per sticky footer */
+@layer base {
+  body {
+    background: var(--brand-bg);
+    color: var(--brand-fg);
+    font-family: var(--font-body, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial);
+    min-height: 100svh;           /* meglio di 100vh su mobile */
+    display: flex;
+    flex-direction: column;       /* permette al footer di stare in fondo */
+  }
+
+  /* Utility tipografica usata nei componenti */
+  .text-balance { text-wrap: balance; }
+
+  /* Selezione testo coerente con brand */
+  ::selection {
+    background: color-mix(in oklab, var(--brand-accent-1) 35%, transparent);
+    color: var(--brand-fg);
+  }
+
+  /* Miglior tap su mobile */
+  * { -webkit-tap-highlight-color: transparent; }
+}
+
+/* ===== Utility: nascondi scrollbar orizzontale su strip progetti ===== */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* (Opzionale) container full-bleed + padding laterale uniforme se non usi un componente Container
+.container {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 32px);
+}
+*/
